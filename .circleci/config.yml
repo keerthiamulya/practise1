@@ -35,6 +35,7 @@ Run-With-Node:
           name: Approval Complete
           command: |
             echo 'Do work once the approval has completed'
+            #
 workflows:
  version: 2
  Example_Workflow:
