@@ -2,23 +2,6 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@0.1.2
   aws-s3: circleci/aws-s3@1.0.0
-workflows: # Define a Workflow running the build job, then the deploy job
-  version: 2
-  build-deploy: # Make a workflow to build and deploy your project
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build # Only run deploy job once the build job has completed
-          filters:
-             branches:
-               only: master
-
-
-
-
-
-
 jobs:
   build:
     executor: aws-cli/default
@@ -27,9 +10,9 @@ jobs:
       - run: mkdir bucket && echo "lorum ipsum" > bucket/build_asset.txt
       - aws-s3/sync:
           from: bucket
-          to: "s3://my-s3-bucket-name/prefix"
+          to: "s3://circleci-application"
           overwrite: true
       - aws-s3/copy:
           from: bucket/build_asset.txt
-          to: "s3://my-s3-bucket-name"
+          to: "s3://circleci-application"
           arguments: --dryrun
